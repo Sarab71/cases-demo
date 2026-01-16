@@ -15,29 +15,7 @@ export default function Home() {
   const [totalSales, setTotalSales] = useState(0);
   const [totalPayments, setTotalPayments] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
-
-const handleBackupDownload = async () => {
-  try {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKUP_API_URL}/api/backup`,
-      {
-        responseType: 'blob', // important for binary file like ZIP
-      }
-    );
-
-    const url = window.URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'mongodb-backup.zip');
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  } catch (error) {
-    console.error('Backup download failed:', error);
-    alert('Failed to download backup.');
-  }
-};
-
+  
   useEffect(() => {
     async function fetchTotals() {
       const params = new URLSearchParams();
@@ -116,15 +94,6 @@ const handleBackupDownload = async () => {
           <TotalSales value={totalSales} />
           <TotalExpenses value={totalExpenses} />
         </div>
-        <div className="flex justify-center my-4">
-          <button
-            onClick={handleBackupDownload}
-            className="bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700 transition duration-300 cursor-pointer"
-          >
-            Download Backup
-          </button>
-        </div>
-
       </main>
     </div>
   );
